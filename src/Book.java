@@ -48,6 +48,7 @@ public class Book {
     public Boolean setIsAvailableBook(Book book) {
         System.out.println("책의 대여 상태를 변경합니다");
         String bookName = scanner.nextLine();
+
         if (this.title.equals(bookName)) {
             this.getTitle();
             if (this.isAvailable() == true) {

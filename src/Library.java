@@ -95,7 +95,7 @@ public class Library {
 
     // 도서관에 책 제거,
     public void deleteBookLibrary() {
-        System.out.println("도서관에 등록되어 있는 책을 삭제하시겠습니까?(y/n");
+        System.out.println("도서관에 등록되어 있는 책을 삭제하시겠습니까?(y/n)");
         String str = scanner.nextLine();
         if (str.equals("y")) {
             if (!libraryList.isEmpty()) {
@@ -134,7 +134,35 @@ public class Library {
 
         // 책 대여
         public void rentBook () {
-        //rent
+            System.out.println("대여 가능한 책 목록입니다.");
+            for(Book book : libraryList) {
+                if(book.isAvailable() == true){
+                    System.out.println("[ 제목 : " + book.getTitle() + "]");
+                }
+            }
+            System.out.println("대여하시겠습니까?(y/n)");
+            String str = scanner.nextLine();
+
+            boolean find = false;
+            if (str.equals("y")) {
+                System.out.println("대여하실 책 제목을 입력해주세요");
+                String bookName = scanner.nextLine();
+                for (Book book : libraryList) {
+                    if (bookName.equals(book.getTitle())) {
+                        book.setAvailable(false);
+                        System.out.println("["+bookName + " 제목의 책이 대여되었습니다.]");
+                    } else {
+                        System.out.println("["+bookName + " 제목의 책은 이미 대여 중입니다.]");
+                    }
+                    find = true;
+                    break;
+                }
+                if(!find){
+                    System.out.println("책 제목이 일치하지 않습니다.");
+                }
+            } else{
+                System.out.println("대여를 취소합니다.");
+            }
         }
 
         // 책 반납
