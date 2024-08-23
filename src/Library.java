@@ -22,12 +22,22 @@ public class Library {
 
         System.out.println("책을 등록하는 중...");
 
+        for (Book book : bookList) {
+            if (book.getTitle().equalsIgnoreCase(title)) {  // 제목이 동일한 책이 이미 존재하는지 확인
+                System.out.println("같은 제목의 책이 이미 등록되어 있습니다. 책 등록을 취소합니다.");
+                return "등록 실패: 중복된 책입니다";
+            }
+        }
+
         // Book 객체 생성 후 Library 클래스의 bookList에 추가
         Book book = new Book(title, author, true);
         bookList.add(book);
 
+
         System.out.println("책이 성공적으로 등록되었습니다.");
         return book.toString();
+
+
     }
 
     //메서드 : 도서관에 책 추가.
@@ -41,15 +51,26 @@ public class Library {
         String bookName = scanner.nextLine();
 
         boolean find = false;
+        boolean alreadyBook = false;
         for (Book book : bookList) {
             if (book.getTitle().equals(bookName)) {
-                libraryList.add(book);
-                System.out.println(book.getTitle() + " 제목의 책이 도서관에 추가되었습니다.");
                 find = true;
+
+                for (Book libraryBook : libraryList) {
+                    if (libraryBook.getTitle().equals(bookName)) {
+                        alreadyBook = true;
+                        break;
+                    }
+                }
+                if(!alreadyBook) {
+                    libraryList.add(book);
+                    System.out.println(book.getTitle() + " 제목의 책이 도서관에 추가되었습니다.");
+                } else {
+                    System.out.println(book.getTitle() + " 제목의 책은 이미 도서관에 등록되어 있습니다.");
+                }
                 break;
             }
         }
-
         if (!find) {
             System.out.println(bookName + "제목의 책을 찾을 수 없습니다");
         }
@@ -81,7 +102,9 @@ public class Library {
         if (str.equals("y")) {
             if (!libraryList.isEmpty()) {
                 System.out.println("도서관에 등록되어 있는 책 목록입니다.");
-                System.out.println(libraryList.toString());
+                for (Book book : libraryList) {
+                    System.out.println("[" + book.bookInfo() + "]");
+                }
             } else {
                 System.out.println("도서관에 등록되어 있는 책이 없습니다.");
             }
@@ -132,41 +155,91 @@ public class Library {
         }
     }
 
-        // 책 대여
-        public void rentBook () {
-            System.out.println("대여 가능한 책 목록입니다.");
-            for(Book book : libraryList) {
-                if(book.isAvailable() == true){
-                    System.out.println("[ 제목 : " + book.getTitle() + "]");
-                }
+    // 책 대여
+    public void rentBook() {
+        boolean borrowListEmpty = false;
+
+        System.out.println("대여 가능한 책 목록입니다.");
+        for (Book book : libraryList) {
+            if (book.isAvailable() == true) {
+                System.out.println("[ 제목 : " + book.getTitle() + "]");
+                borrowListEmpty = true;
             }
-            System.out.println("대여하시겠습니까?(y/n)");
-            String str = scanner.nextLine();
+        }
+
+        if(!borrowListEmpty){
+            System.out.println("대여 가능한 책이 없습니다.");
+            return;
+        }
+        System.out.println("대여하시겠습니까?(y/n)");
+        String str = scanner.nextLine();
+        if (str.equals("y")) {
+            System.out.println("대여하실 책 제목을 입력해주세요");
+            String bookName = scanner.nextLine();
 
             boolean find = false;
-            if (str.equals("y")) {
-                System.out.println("대여하실 책 제목을 입력해주세요");
-                String bookName = scanner.nextLine();
-                for (Book book : libraryList) {
-                    if (bookName.equals(book.getTitle())) {
-                        book.setAvailable(false);
-                        System.out.println("["+bookName + " 제목의 책이 대여되었습니다.]");
-                    } else {
-                        System.out.println("["+bookName + " 제목의 책은 이미 대여 중입니다.]");
-                    }
+            for (Book book : libraryList) {
+                if (bookName.equals(book.getTitle())) {
                     find = true;
+                    if (book.isAvailable()) {
+                        book.setAvailable(false);
+                        System.out.println("[" + bookName + " 제목의 책이 대여되었습니다.]");
+                    } else {
+                        System.out.println("[" + bookName + " 제목의 책은 이미 대여 중입니다.]");
+                    }
                     break;
                 }
-                if(!find){
-                    System.out.println("책 제목이 일치하지 않습니다.");
-                }
-            } else{
-                System.out.println("대여를 취소합니다.");
+            }
+            if (!find) {
+                System.out.println("책 제목이 일치하지 않습니다.");
+            }
+        } else {
+            System.out.println("대여를 취소합니다.");
+        }
+    }
+
+    // 책 반납
+    public void returnBook() {
+        boolean borrowListEmpty = false;
+
+        System.out.println("반납 가능한 책 목록입니다.");
+        for (Book book : libraryList) {
+            if (book.isAvailable() == false) {
+                System.out.println("[ 제목 : " + book.getTitle() + "]");
+                borrowListEmpty = true;
             }
         }
-
-        // 책 반납
-        public void returnBook () {
+        if(!borrowListEmpty){
+            System.out.println("반납 가능한 책이 없습니다.");
+            return;
         }
+        System.out.println("대여하신 책을 반납하겠습니까?(y/n)");
+        String str = scanner.nextLine();
+        if (str.equals("y")) {
+            System.out.println("반납하실 책 제목을 입력해주세요");
+            String bookName = scanner.nextLine();
 
+            boolean find = false;
+            for (Book book : libraryList) {
+                if (bookName.equals(book.getTitle())) {
+                    find = true;
+                    if (!book.isAvailable()) {
+                        book.setAvailable(true);
+                        System.out.println("[" + bookName + " 제목의 책이 반납되었습니다.]");
+                    } else {
+                        System.out.println("[" + bookName + " 제목의 책은 이미 반납되었습니다.]");
+                    }
+                    break;
+                }
+            }
+            if (!find) {
+                System.out.println("책 제목이 일치하지 않습니다.");
+            }
+        } else {
+            System.out.println("반납를 취소합니다.");
+        }
     }
+
+}
+
+

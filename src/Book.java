@@ -79,16 +79,9 @@ public class Book {
 
     // 책 상세 정보 출력 book info
     public String bookInfo() {
-        System.out.println("정보를 확인할 책의 제목을 입력하세요.");
-        String bookName = scanner.nextLine();
-        if (this.title.equals(bookName)) {
-            System.out.println(bookName + "제목의 책이 확인되었습니다.");
             String available = isAvailable() ? "대여 가능" : "대여 중";
-            return "제목: " + getTitle() + "\n저자: " + getAuthor() + "\n대여 여부" + isAvailable();
-        } else {
-            System.out.println(bookName + "제목의 책을 확인할 수 없습니다.");
-        }
-        return null;
+            return "[제목] : " + getTitle() + " [저자] : " + getAuthor() + " [대여 여부] :" + isAvailable();
+
     }
 
 
