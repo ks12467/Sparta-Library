@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Book {
@@ -8,28 +9,16 @@ public class Book {
     public Book() {
 
     }
+
     public Book(String title, String author, boolean isAvailable) {
         this.title = title;
         this.author = author;
         this.isAvailable = isAvailable;
     }
-public void createBook(){
-    System.out.println("등록할 책의 제목을 입력해주세요");
-    String title = scanner.nextLine();
-
-    System.out.println("등록할 책의 저자를 입력해주세요");
-    String author = scanner.nextLine();
-
-    System.out.println("책을 등록하는 중...");
-
-    Book book = new Book(title, author, true );
-
-
-}
 
 
     //책 제목 조회 equals book title
-    public void findNameBook(Book book) {
+    public void findNameBook() {
         System.out.println("책 제목을 조회합니다.");
         String bookName = scanner.nextLine();
         if (this.title.equals(bookName)) {
@@ -88,14 +77,14 @@ public void createBook(){
 
 
     // 책 상세 정보 출력 book info
-    public String bookInfo(Book book) {
+    public String bookInfo() {
         System.out.println("정보를 확인할 책의 제목을 입력하세요.");
         String bookName = scanner.nextLine();
         if (this.title.equals(bookName)) {
             System.out.println(bookName + "제목의 책이 확인되었습니다.");
             String available = isAvailable() ? "대여 가능" : "대여 중";
-            return "제목: " + getTitle() + "\n저자: " + getAuthor()+ "\n대여 여부" + isAvailable();
-        } else{
+            return "제목: " + getTitle() + "\n저자: " + getAuthor() + "\n대여 여부" + isAvailable();
+        } else {
             System.out.println(bookName + "제목의 책을 확인할 수 없습니다.");
         }
         return null;
@@ -132,4 +121,4 @@ public void createBook(){
     //제목
     //저자
     //대여여부
-    }
+}

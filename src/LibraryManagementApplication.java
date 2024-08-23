@@ -31,7 +31,7 @@ public class LibraryManagementApplication {
             int input = scanner.nextInt();
 
             switch (input) {
-                case 1 -> book.createBook();
+                case 1 -> library.createBook();
                 case 2 -> library.addBookLibrary();
                 case 3 -> library.deleteBookLibrary();
                 case 4 -> library.findbyName();
