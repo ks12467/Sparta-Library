@@ -95,15 +95,50 @@ public class Library {
 
     // 도서관에 책 제거,
     public void deleteBookLibrary() {
+        System.out.println("도서관에 등록되어 있는 책을 삭제하시겠습니까?(y/n");
+        String str = scanner.nextLine();
+        if (str.equals("y")) {
+            if (!libraryList.isEmpty()) {
+                System.out.println("도서관에 등록되어 있는 책 목록입니다.");
+                for (Book book : libraryList) {
+                    System.out.println("[제목 : " + book.getTitle() + "]");
+                }
+                System.out.println("삭제할 책 제목을 입력해주세요");
+                String bookName = scanner.nextLine();
+
+                boolean remove = false;
+                for (int i = 0; i < bookList.size(); i++) {
+                    Book book = bookList.get(i);
+                    if (bookName.equals(book.getTitle())) {
+                        libraryList.remove(i);
+                        System.out.println("책이 삭제되었습니다.");
+                        remove = true;
+                        break;
+                    }
+                }
+                if (!remove) {
+                    System.out.println("책 제목이 일치하지 않습니다.");
+                }
+            } else {
+                System.out.println("도서관에 등록되어 있는 책이 없습니다.");
+            }
+
+        } else if (str.equals("n")) {
+            System.out.println("삭제를 취소합니다.");
+            System.out.println("메인 화면으로 이동합니다.");
+        } else {
+            System.out.println("입력 값이 올바르지 않습니다.");
+            System.out.println("메인 화면으로 이동합니다.");
+        }
     }
 
+        // 책 대여
+        public void rentBook () {
+        //rent
+        }
 
-    // 책 대여
-    public void rentBook() {
+        // 책 반납
+        public void returnBook () {
+        }
+
     }
-
-    // 책 반납
-    public void returnBook() {
-    }
-
-}
